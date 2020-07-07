@@ -1,10 +1,7 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Node.js CI
+ 
+name: Deploy Website
 
 on: [push]
-
 
 jobs:
   build:
@@ -12,17 +9,17 @@ jobs:
     name: Deploying to surge
     steps:
       - uses: actions/checkout@v2
-      - name: set up node js
-        uses: actions/setup-node@v1
+      - name: Install Node.js
+        uses: actions/setup-node@v2-beta
         with:
           node-version: 12
-      - name: make environmet for surge
-      - uses: curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-      - name: Install yarn
-      - uses: sudo apt update && sudo apt install yarn
-      - name: Build react app
-      - uses: yarn build
-      - name: Install surge
-      - uses: yarn add -g surge
-      - name: run surge
-      - uses: surge ./build bootcamp_wajahat.surge.sh --token ${{ secrets.SURGE_TOKEN }}  
+      - name: Prepare for Yarn Installation
+        run: curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+      - name: install yarn
+        run: sudo apt update && sudo apt install yarn
+      - name: Build React App
+        run: yarn build
+      - name: Install Surge
+        run: npm install -g surge
+      - name: Run surge
+        run: surge ./build bootcamp_wajahat.surge.sh --token ${{ secrets.SURGE_TOKEN }}
