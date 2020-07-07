@@ -11,23 +11,21 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
-
+    name: Deploying to surge
     steps:
-    - uses: actions/checkout@v2
-    - name: set up node js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12
-    - name: make environmet for surge
-    - uses: curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-    - name: Install yarn
-    - uses: sudo apt update && sudo apt install yarn
-    - name: Build react app
-    - uses: yarn build
-    - name: Install surge
-    - uses: yarn add -g surge
-    - name: run surge
-    - uses: surge ./build bootcamp_wajahat.surge.sh --token ${{ secrets.SURGE_TOKEN }}  
+      - uses: actions/checkout@v2
+      - name: set up node js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: make environmet for surge
+      - uses: curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+      - name: Install yarn
+      - uses: sudo apt update && sudo apt install yarn
+      - name: Build react app
+      - uses: yarn build
+      - name: Install surge
+      - uses: yarn add -g surge
+      - name: run surge
+      - uses: surge ./build bootcamp_wajahat.surge.sh --token ${{ secrets.SURGE_TOKEN }}  
